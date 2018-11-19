@@ -3,7 +3,8 @@ import React, { Component, Fragment } from "react";
 const divitionsType = {
   SENTENCES: "SENTENCES",
   WORDS: "WORDS",
-  CHARACTERS: "CHARACTERS"
+  CHARACTERS: "CHARACTERS",
+  BY_CHARACTER: "BY CHARACTER",
 };
 
 const styles = {
@@ -11,23 +12,23 @@ const styles = {
   paragraph: {},
   sentence: {
     position: "relative",
-    display: "inline-block"
+    display: "inline-block",
   },
   word: {
     position: "relative",
-    display: "inline-block"
+    display: "inline-block",
   },
   character: {
     position: "relative",
-    display: "inline-block"
-  }
+    display: "inline-block",
+  },
 };
 
 const StyleContext = React.createContext();
 const RefContext = React.createContext({
   sentenceRefs: () => {},
   wordRefs: () => {},
-  charRefs: () => {}
+  charRefs: () => {},
 });
 
 const Character = ({ children: char, id }) => (
@@ -169,7 +170,7 @@ export default class Splitter extends Component {
       getWords = () => {},
       getCharacters = () => {},
       getDivisionRefs = () => {},
-      rejoin = false
+      rejoin = false,
     } = this.props;
     const sentences = rejoin ? [] : this.sentences;
     const words = rejoin ? [] : this.words;
@@ -180,7 +181,7 @@ export default class Splitter extends Component {
     getDivisionRefs({
       sentences,
       words,
-      characters
+      characters,
     });
   };
 
@@ -188,12 +189,12 @@ export default class Splitter extends Component {
     let {
       styles: customeStyles = {},
       splitIn = [divitionsType.SENTENCES],
-      children
+      children,
     } = this.props;
     customeStyles = Object.keys(styles).reduce(
       (obj, key) => ({
         ...obj,
-        [key]: { ...styles[key], ...customeStyles[key] }
+        [key]: { ...styles[key], ...customeStyles[key] },
       }),
       {}
     );
@@ -209,7 +210,7 @@ export default class Splitter extends Component {
         value={{
           sentenceRefs: this.sentenceRefs,
           wordRefs: this.wordRefs,
-          charRefs: this.charRefs
+          charRefs: this.charRefs,
         }}
       >
         <StyleContext.Provider value={customeStyles}>
